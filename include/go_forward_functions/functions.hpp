@@ -29,9 +29,9 @@ public:
 private:
     void bumper_callback(const kobuki_ros_interfaces::msg::BumperEvent::SharedPtr msg) const;
     void move_forward();
-    rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
     rclcpp::Subscription<kobuki_ros_interfaces::msg::BumperEvent>::SharedPtr subscriber_;
+    geometry_msgs::msg::Twist cmd_;
     bool state_;
 };
 }

@@ -25,6 +25,7 @@ ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
 add_executable(forward_node src/program.cpp)
 ament_target_dependencies(forward_node ${dependencies})
+target_link_libraries(forward_node ${PROJECT_NAME})
 
 install(TARGETS
   forward_node
