@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>go_forward_program</name>
+  <name>go_forward</name>
   <version>0.0.0</version>
   <description>Go forward program</description>
   <maintainer email="j.martinm.2021@alumnos.urjc.es">jmartinm2021</maintainer>

@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.5)
-project(go_forward_program)
+cmake_minimum_required(VERSION 3.8)
+project(go_forward)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -16,17 +16,18 @@ set(dependencies
     kobuki_ros_interfaces
 )
 
-add_executable(program src/program.cpp)
-ament_target_dependencies(program ${dependencies})
-
 include_directories(include)
+
 add_library(${PROJECT_NAME} SHARED
   src/go_forward_functions/functions.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
+add_executable(forward_node src/program.cpp)
+ament_target_dependencies(forward_node ${dependencies})
+
 install(TARGETS
-  program
+  forward_node
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
