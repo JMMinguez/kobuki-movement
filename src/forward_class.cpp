@@ -13,21 +13,18 @@
 // limitations under the License.
 
 
-
-#include <iostream>
-
 #include "rclcpp/rclcpp.hpp"
 
-#include "go_forward_functions/functions.hpp"
+#include "node_forward/ForwardNode.hpp"
 
 int main(int argc, char * argv[])
 {
-    rclcpp::init(argc, argv);
+  rclcpp::init(argc, argv);
 
-    auto node = std::make_shared<go_forward::ForwardNode>();
+  auto node = std::make_shared<node_forward::ForwardNode>();
 
-    rclcpp::spin(node);
+  rclcpp::spin(node);
 
-    rclcpp::shutdown();
-    return 0;
+  rclcpp::shutdown();
+  return 0;
 }

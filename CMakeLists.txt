@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(go_forward)
+project(node_forward)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -16,19 +16,19 @@ set(dependencies
     kobuki_ros_interfaces
 )
 
+# Using a library
 include_directories(include)
-
 add_library(${PROJECT_NAME} SHARED
-  src/go_forward_functions/functions.cpp
+  src/node_forward/ForwardNode.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 
-add_executable(forward_node src/program.cpp)
-ament_target_dependencies(forward_node ${dependencies})
-target_link_libraries(forward_node ${PROJECT_NAME})
+add_executable(forward_class src/forward_class.cpp)
+ament_target_dependencies(forward_class ${dependencies})
+target_link_libraries(forward_class ${PROJECT_NAME})
 
 install(TARGETS
-  forward_node
+  forward_class
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

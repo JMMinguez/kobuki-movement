@@ -12,27 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-#ifdef GO_FORWARD__FUNCTIONS_HPP_
-#define GO_FORWARD__FUNCTIONS_HPP_
+#ifndef NODE_FORWARD__FORWARDNODE_HPP_
+#define NODE_FORWARD__FORWARDNODE_HPP_
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "kobuki_ros_interfaces/msg/bumper_event.hpp"
 
-namespace go_forward
+namespace node_forward
 {
+
 class ForwardNode : public rclcpp::Node
 {
 public:
-    ForwardNode();
+  ForwardNode();
+  void move_forward();
+  void bumper_callback(const kobuki_ros_interfaces::msg::BumperEvent::SharedPtr msg);
+
 private:
-    void bumper_callback(const kobuki_ros_interfaces::msg::BumperEvent::SharedPtr msg) const;
-    void move_forward();
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
-    rclcpp::Subscription<kobuki_ros_interfaces::msg::BumperEvent>::SharedPtr subscriber_;
-    geometry_msgs::msg::Twist cmd_;
-    bool state_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
+  rclcpp::Subscription<kobuki_ros_interfaces::msg::BumperEvent>::SharedPtr subscriber_;
+  bool pressed_;
 };
-}
-#endif
+
+}  //  namespace node_forward
+
+#endif  // NODE_FORWARD__FORWARDNODE_HPP_
