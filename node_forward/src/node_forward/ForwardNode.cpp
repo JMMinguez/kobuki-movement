@@ -31,11 +31,11 @@ ForwardNode::ForwardNode()
 {
   publisher_ = create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
   subscriber_ = create_subscription<kobuki_ros_interfaces::msg::BumperEvent>(
-        "events/bumper", 10, 
-        std::bind(&ForwardNode::bumper_callback, this, _1));
+    "events/bumper", 10,
+    std::bind(&ForwardNode::bumper_callback, this, _1));
   timer_ = create_wall_timer(
-    100ms, std::bind(&ForwardNode::move_forward,this));
-    pressed_ = 0;
+    100ms, std::bind(&ForwardNode::move_forward, this));
+  pressed_ = 0;
 }
 
 void
@@ -51,7 +51,6 @@ void
 ForwardNode::move_forward()
 {
   RCLCPP_INFO(get_logger(), "run");
-  
   if (!start_time_initialized_) {
     start_time_ = std::chrono::steady_clock::now();
     start_time_initialized_ = true;
@@ -66,18 +65,6 @@ ForwardNode::move_forward()
     cmd.linear.x = 0.3;
     publisher_->publish(cmd);
   }
-  /* while ((std::chrono::steady_clock::now() - start_time) > 5s)
-  {
-      cmd.linear.x = 0.2;
-      if (pressed_)
-      {
-          break;
-      }
-      publisher_->publish(cmd);
-  }
-  cmd.linear.x = 0.0;
-  publisher_->publish(cmd);*/
-  
 }
 
 }  //  namespace node_forward
