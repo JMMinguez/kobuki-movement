@@ -33,7 +33,8 @@ private:
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
   rclcpp::Subscription<kobuki_ros_interfaces::msg::BumperEvent>::SharedPtr subscriber_;
   rclcpp::TimerBase::SharedPtr timer_;
-  bool pressed_;
+  geometry_msgs::msg::Twist cmd;
+  int pressed_;
   bool start_time_initialized_;
   std::chrono::steady_clock::time_point start_time_;
 };

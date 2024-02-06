@@ -31,22 +31,26 @@ ForwardNode::ForwardNode()
 {
   publisher_ = create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
   subscriber_ = create_subscription<kobuki_ros_interfaces::msg::BumperEvent>(
-        "bumper", 10, 
+        "events/bumper", 10, 
         std::bind(&ForwardNode::bumper_callback, this, _1));
   timer_ = create_wall_timer(
     100ms, std::bind(&ForwardNode::move_forward,this));
+    pressed_ = 0;
 }
 
 void
 ForwardNode::bumper_callback(const kobuki_ros_interfaces::msg::BumperEvent::SharedPtr msg)
 {
-    pressed_ = msg->state == kobuki_ros_interfaces::msg::BumperEvent::PRESSED;
+  RCLCPP_INFO(get_logger(), "Bumper: %d", msg->bumper);
+  pressed_ = 1;
+  cmd.linear.x = 0.0;
+  publisher_->publish(cmd);
 }
 
 void
 ForwardNode::move_forward()
 {
-  geometry_msgs::msg::Twist cmd;
+  RCLCPP_INFO(get_logger(), "run");
   
   if (!start_time_initialized_) {
     start_time_ = std::chrono::steady_clock::now();
@@ -55,11 +59,11 @@ ForwardNode::move_forward()
 
   auto elapsed_time = std::chrono::steady_clock::now() - start_time_;
 
-  if (elapsed_time > 5000ms || pressed_) {
+  if (elapsed_time > 5000ms || pressed_ == 1) {
     cmd.linear.x = 0.0;
     publisher_->publish(cmd);
   } else {
-    cmd.linear.x = 0.2;
+    cmd.linear.x = 0.3;
     publisher_->publish(cmd);
   }
   /* while ((std::chrono::steady_clock::now() - start_time) > 5s)
